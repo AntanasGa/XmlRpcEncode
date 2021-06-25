@@ -9,7 +9,6 @@ interface TypeInterface
 {
     /**
      * Method __toString Prepares value to XMLRPC
-     *
      */
     public function __toString();
 }

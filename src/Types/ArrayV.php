@@ -11,6 +11,9 @@ class ArrayV implements TypeInterface
 
     private array $valueArray;
 
+    /**
+     * @param array $valueArray Value object array
+     */
     public function __construct(array $valueArray)
     {
         $this->checkClassArray($valueArray, Value::class);

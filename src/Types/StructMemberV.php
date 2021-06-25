@@ -15,7 +15,7 @@ class StructMemberV implements TypeInterface
         $this->key = $key;
         $this->value = $value;
     }
-    
+
     /**
      * @return string `<member><name>%s</name>%s(AntanasGa\XmlRpcEncode\Types\Value)</member>`
      */

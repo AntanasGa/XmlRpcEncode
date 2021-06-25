@@ -9,12 +9,11 @@ use TypeError;
  */
 trait ArrayOfTypeTrait
 {
-        
     /**
      * ***checkClassArray*** Checks that every value is of specific class type.
      * Throws exception if it doesn't.
      *
-     * @param  array $array 
+     * @param  array $array
      * @param  string $class
      * @return void
      */

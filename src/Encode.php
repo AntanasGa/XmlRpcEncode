@@ -4,6 +4,7 @@ namespace AntanasGa\XmlRpcEncode;
 
 use DateTime;
 use AntanasGa\XmlRpcEncode\Types\ArrayV;
+use AntanasGa\XmlRpcEncode\Types\Base64V;
 use AntanasGa\XmlRpcEncode\Types\BooleanV;
 use AntanasGa\XmlRpcEncode\Types\DateTimeV;
 use AntanasGa\XmlRpcEncode\Types\DoubleV;
@@ -22,13 +23,13 @@ use TypeError;
 class Encode
 {
     private array $parameters;
-    private string $methodName;
+    private ?string $methodName;
 
     /**
-     * @param string $methodName value to generate `<methodName>%s</methodName>` part
      * @param array $parameters values to generate `<params>%s</params>` part
+     * @param string|null $methodName value to generate `<methodName>%s</methodName>` part
      */
-    public function __construct(string $methodName, array $parameters)
+    public function __construct(array $parameters, ?string $methodName = null)
     {
         $this->parameters = $parameters;
         $this->methodName = $methodName;
@@ -37,17 +38,40 @@ class Encode
     /**
      * Generates encoded XMLRPC spec string
      * @return string `<methodCall><methodName>%s(methodName)</methodName>%s(parameters)</methodCall>`
+     * if methodName is null: <methodResponse>%s(parameters)</method>
      */
     public function __toString()
     {
+        $response = '';
+        $xmlprefix = '<?xml version=\'1.0\'?>';
         $params = new Params($this->handleParametersArray($this->parameters));
-        $response = sprintf(
-            '%s<methodCall><methodName>%s</methodName>%s</methodCall>',
-            '<?xml version=\'1.0\'?>',
-            $this->methodName,
-            $params
-        );
+        if ($this->methodName !== null) {
+            $response = sprintf(
+                '%s<methodCall><methodName>%s</methodName>%s</methodCall>',
+                $xmlprefix,
+                $this->methodName,
+                $params
+            );
+        } else {
+            $response = sprintf(
+                '%s<methodResponse>%s</methodResponse>',
+                $xmlprefix,
+                $params
+            );
+        }
         return $response;
+    }
+
+    /**
+     * ***base64*** passes base64 values.
+     * ***Value will be encoded***
+     *
+     * @param  string $parameter
+     * @return Value
+     */
+    public static function base64(string $parameter): Value
+    {
+        return new Value(new Base64V($parameter));
     }
 
     /**
@@ -178,11 +202,16 @@ class Encode
      */
     private function handleObject(object $parameter): Value
     {
-        if (!($parameter instanceof \DateTime)) {
+        $response = null;
+        if ($parameter instanceof \DateTime) {
+            $response = new Value(new DateTimeV($parameter));
+        } elseif ($parameter instanceof Value) {
+            $response = $parameter;
+        } else {
             throw new TypeError(
                 sprintf('Expected DateTime object, got %s', gettype($parameter))
             );
         }
-        return new Value(new DateTimeV($parameter));
+        return $response;
     }
 }

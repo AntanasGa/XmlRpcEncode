@@ -16,7 +16,7 @@ class StructV implements TypeInterface
         $this->checkClassArray($structMembers, StructMemberV::class);
         $this->structMembers = $structMembers;
     }
-    
+
     /**
      * @return string `<struct>[<member>%s(AntanasGa\XmlRpcEncode\Types\StructMemberV)</member>]...</struct>`
      */

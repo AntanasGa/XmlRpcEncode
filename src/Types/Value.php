@@ -13,7 +13,7 @@ class Value
     {
         $this->param = $parameter;
     }
-    
+
     /**
      * @return string `<value><int|string|...></"-"></value>`
      */
