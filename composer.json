@@ -2,7 +2,7 @@
     "name": "antanasga/xmlrpcencode",
     "description": "Easy way to encode XMLRPC requests",
     "type": "library",
-    "version": "0.1.0",
+    "license": "MIT",
     "minimum-stability": "dev",
     "require": {
         "php": ">=7.0.0"
