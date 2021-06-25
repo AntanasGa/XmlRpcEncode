@@ -1,0 +1,13 @@
+{
+    "name": "antanasga/xmlrpcencode",
+    "description": "Easy way to encode XMLRPC requests",
+    "type": "library",
+    "version": "0.1.0",
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.0.0"
+    },
+    "autoload": {
+        "psr-4": { "AntanasGa\\XmlRpcEncode\\": "src/" }
+    }
+}
