@@ -74,6 +74,27 @@ class Encode
         return new Value(new Base64V($parameter));
     }
 
+    public static function encodeFault(string $faultCode, string $faultString): string
+    {
+        $result = '<?xml version=\'1.0\'?>';
+        $values = new Value(
+            new StructV(
+                [
+                    new StructMemberV(
+                        'faultCode',
+                        new Value(new StringV($faultCode))
+                    ),
+                    new StructMemberV(
+                        'faultString',
+                        new Value(new StringV($faultString))
+                    )
+                ]
+            )
+        );
+        $result .= sprintf('<methodResponse>%s</methodResponse>', $values);
+        return $result;
+    }
+
     /**
      * ***handleParametersArray*** handles array of values
      *

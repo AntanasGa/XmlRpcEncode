@@ -9,12 +9,20 @@ Easy way to encode XMLRPC calls
  * [Usage](#Usage)
   * [As Request](#As-Request)
   * [As Response](#As-Response)
+  * [As Error Message](#As-Error)
 ### Installation
-installing to 
+installing using composer:
+`composer.json`:
 ```json
 "require": {
-    "AntanasGa/XmlRpcEncode": "^0.1"
+    "antanasga/xmlrpcencode": "^0.1.2"
 }
+```
+
+In terminal:
+
+```
+$ composer require antanasga/xmlrpcencode
 ```
 
 ### Notes
@@ -217,6 +225,42 @@ Output:
       </value>
     </param>
   </params>
+</methodResponse>
+```
+
+[Back To top](#Documentation)
+
+#### As Error
+
+Request:
+```php
+
+$f = Encode::encodeFault('Does not exist', 'no backtrace');
+
+echo $f;
+
+```
+
+Output:
+```xml
+<?xml version='1.0'?>
+<methodResponse>
+  <value>
+    <struct>
+      <member>
+        <name>faultCode</name>
+        <value>
+          <string>Does not exist</string>
+        </value>
+      </member>
+      <member>
+        <name>faultString</name>
+        <value>
+          <string>no backtrace</string>
+        </value>
+      </member>
+    </struct>
+  </value>
 </methodResponse>
 ```
 
